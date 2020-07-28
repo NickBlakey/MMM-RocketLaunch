@@ -7,7 +7,7 @@ Module.register("MMM-RocketLaunch", {
 	defaults: {
 		url: "https://fdo.rocketlaunch.live/json/launches?key=",
 		api: "",
-		arrayName: "",
+		arrayName: "result",
 		keepColumns: [],
 		size: 0,
 		tryFormatDate: false,
