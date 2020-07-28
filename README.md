@@ -9,6 +9,7 @@ It requires an API from www.rocketlaunch.live which can be obtained with a low c
 I have taken stuff from various publicly available modules and will try to remember which and thank them here.
 
 MMM-SpaceX
+
 MMM-JSONTable
 
 ## Installation
