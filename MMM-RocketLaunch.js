@@ -55,7 +55,7 @@ Module.register("MMM-RocketLaunch", {
 	// Override dom generator.
 	getDom: function () {
 		var wrapper = document.createElement("div");
-		wrapper.className = "xsmall";
+		wrapper.className = "small";
 
 		if (!this.jsonData) {
 			wrapper.innerHTML = "Awaiting json data...";
