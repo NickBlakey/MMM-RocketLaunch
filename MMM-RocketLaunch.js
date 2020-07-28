@@ -89,7 +89,7 @@ Module.register("MMM-RocketLaunch", {
 			//			console.log(element["win_open"]);
 			if (element["win_open"]) {
 				//console.log(element.missions[0]["name"]);
-				console.log(Math.abs(new Date(element["win_open"]) - today) / 3.6e6);
+				console.log(Math.abs(new Date(element["win_open"]) - today) / 3.6e6);//Hours to launch - use to format table...
 				var line = {
 					vehicleCompany:	element.provider["name"],
 					vehicleModel:	element.vehicle["name"],
