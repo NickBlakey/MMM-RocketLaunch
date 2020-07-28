@@ -99,7 +99,13 @@ Module.register("MMM-RocketLaunch", {
 					missionName:	element.missions[0]["name"]//,
 //					launchTime:	this.getFormattedValue(element["win_open"])
 					};
-				if (hourDiff < 24) {
+				if (hourDiff < 1) {
+					line.launchTime01 = this.getFormattedValue(element["win_open"]);
+				}
+				else if (hourDiff > 1 && hourDiff < 3) {
+					line.launchTime03 = this.getFormattedValue(element["win_open"]);
+				}
+				else if (hourDiff > 3 && hourDiff < 24) {
 					line.launchTime24 = this.getFormattedValue(element["win_open"]);
 				}
 				else if (hourDiff > 24 && hourDiff < 72) {
