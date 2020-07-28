@@ -5,7 +5,8 @@ Module.register("MMM-RocketLaunch", {
 
 	// Default module config.
 	defaults: {
-		url: "",
+		url: "https://fdo.rocketlaunch.live/json/launches?key=",
+		api: "",
 		arrayName: "",
 		keepColumns: [],
 		size: 0,
@@ -33,6 +34,7 @@ Module.register("MMM-RocketLaunch", {
 
 	// Request node_helper to get json from url
 	getJson: function () {
+		this.config.url = this.config.url + this.config.api;
 		this.sendSocketNotification("MMM-RL_GET_JSON", this.config.url);
 	},
 
