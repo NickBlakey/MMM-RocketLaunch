@@ -1,4 +1,4 @@
-"use strict";
+u"use strict";
 
 Module.register("MMM-RocketLaunch", {
 	jsonData: null,
@@ -55,7 +55,7 @@ Module.register("MMM-RocketLaunch", {
 	// Override dom generator.
 	getDom: function () {
 		var wrapper = document.createElement("div");
-		wrapper.className = "small";
+		wrapper.className = "medium";
 
 		if (!this.jsonData) {
 			wrapper.innerHTML = "Awaiting json data...";
