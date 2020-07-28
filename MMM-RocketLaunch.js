@@ -89,7 +89,7 @@ Module.register("MMM-RocketLaunch", {
 			//			console.log(element["win_open"]);
 			if (element["win_open"]) {
 				//console.log(element.missions[0]["name"]);
-				console.log(Math.abs(new Date(element["win_open"]) - today) / 3.6e6);//Hours to launch - use to format table...
+				var hourDiff = Math.abs(new Date(element["win_open"]) - today) / 3.6e6;//Hours to launch - use to format table...
 				var line = {
 					vehicleCompany:	element.provider["name"],
 					vehicleModel:	element.vehicle["name"],
@@ -99,6 +99,15 @@ Module.register("MMM-RocketLaunch", {
 					missionName:	element.missions[0]["name"]//,
 //					launchTime:	this.getFormattedValue(element["win_open"])
 					};
+				if (hourDiff < 24) {
+					line.launchTime24 = this.getFormattedValue(element["win_open"]);
+				}
+				else if (hourDiff > 24 && hourDiff < 72) {
+					line.launchTime74 = this.getFormattedValue(element["win_open"]);
+				}
+				else {
+					line.launchTime = this.getFormattedValue(element["win_open"]);
+				}
 				var row = this.getTableRow(line);//this.getFormattedValue(element["win_open"]));
 				tbody.appendChild(row)
 //				wrapper.innerHTML += this.getFormattedValue(element["win_open"]) + "</p>";
