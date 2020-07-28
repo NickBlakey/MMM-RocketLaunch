@@ -1,4 +1,4 @@
-u"use strict";
+"use strict";
 
 Module.register("MMM-RocketLaunch", {
 	jsonData: null,
