@@ -89,7 +89,7 @@ Module.register("MMM-RocketLaunch", {
 			//			console.log(element["win_open"]);
 			if (element["win_open"]) {
 				//console.log(element.missions[0]["name"]);
-				console.log(today);//new Date(element["win_open"]).getDay());
+				console.log(Math.abs(new Date(element["win_open"]) - today) / 3.6e6);
 				var line = {
 					vehicleCompany:	element.provider["name"],
 					vehicleModel:	element.vehicle["name"],
