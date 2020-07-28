@@ -4,8 +4,12 @@
 	line-height: 1em;
  }
 
- .MMM-RocketLaunch th {
+.MMM-RocketLaunch th {
 	 text-align: left;
 	 font-size: 0.8em;
 	 line-height: 1em;
  }
+
+.launchTime72 {
+	color: red;
+}
