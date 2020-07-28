@@ -12,6 +12,12 @@ Module.register("MMM-RocketLaunch", {
 		tryFormatDate: false,
 		updateInterval: 3600000
 	},
+	
+	// Define required stylescripts.
+	getStyles: function () {
+		return ["MMM-RocketLaunch.css"];
+	},
+
 
 	start: function () {
 		this.getJson();
