@@ -11,7 +11,7 @@ Module.register("MMM-RocketLaunch", {
 		keepColumns: [],
 		size: 0,
 		tryFormatDate: false,
-		updateInterval: 3600000
+		updateInterval: 15 * 60 * 1000
 	},
 	
 	// Define required stylescripts.
