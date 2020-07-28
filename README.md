@@ -6,7 +6,7 @@ This module will show all future launches listed on the RocketLaunch API. This i
 
 It requires an API from www.rocketlaunch.live, obtained with a low cost subscription which will help support the site.
 
-I have taken stuff from various publicly available modules and will try to remember which and thank them here.
+I have taken stuff from various publicly available modules and will try to remember which and thank them here:
 
 MMM-SpaceX,
 MMM-JSONTable
