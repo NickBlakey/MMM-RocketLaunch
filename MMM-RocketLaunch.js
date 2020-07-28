@@ -96,8 +96,8 @@ Module.register("MMM-RocketLaunch", {
 					locationName:	element.pad.location["name"],
 					locationCountry:element.pad.location["country"],
 					locationState:	element.pad.location["statename"],
-					missionName:	element.missions[0]["name"],
-					launchTime:	this.getFormattedValue(element["win_open"])
+					missionName:	element.missions[0]["name"]//,
+//					launchTime:	this.getFormattedValue(element["win_open"])
 					};
 				var row = this.getTableRow(line);//this.getFormattedValue(element["win_open"]));
 				tbody.appendChild(row)
