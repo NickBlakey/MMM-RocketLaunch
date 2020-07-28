@@ -86,7 +86,7 @@ Module.register("MMM-RocketLaunch", {
 		items.forEach((element) => {
 			//			console.log(element["win_open"]);
 			if (element["win_open"]) {
-				console.log(element.missions[0]["name"]);
+				//console.log(element.missions[0]["name"]);
 				var line = {
 					vehicleCompany:	element.provider["name"],
 					vehicleModel:	element.vehicle["name"],
