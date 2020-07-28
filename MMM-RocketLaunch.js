@@ -152,7 +152,7 @@ Module.register("MMM-RocketLaunch", {
 			if (m.isSame(new Date(), "day") && m.hours() !== 0 && m.minutes() !== 0 && m.seconds() !== 0) {
 				return m.format("HH:mm:ss");
 			} else {
-				return m.format("YYYY-MM-DD:HH:mm");
+				return m.format("YYYY-MM-DD : HH:mm");
 			}
 		} else {
 			return input;
