@@ -11,19 +11,19 @@
  }
 
 .launchTime01 {
-	color: green;
+	color: limegreen;
 }
 
 .launchTime03 {
-	color: orange;
+	color: yellowgreen;
 }
 
 .launchTime24 {
-	color: white;
+	color: darkorange;
 }
 
 .launchTime72 {
-	color: red;
+	color: firebrick;
 }
 
 .launchTime {
