@@ -10,6 +10,22 @@
 	 line-height: 1em;
  }
 
+.launchTime01 {
+	color: green;
+}
+
+.launchTime03 {
+	color: orange;
+}
+
+.launchTime24 {
+	color: white;
+}
+
 .launchTime72 {
 	color: red;
+}
+
+.launchTime {
+	color: white;
 }
