@@ -4,12 +4,11 @@ This is a module for [MagicMirror²](https://github.com/MichMich/MagicMirror/).
 
 This module will show all future launches listed on the RocketLaunch API. This is for personal use - I do not intend offering it widely: it's way too basic for that.
 
-It requires an API from www.rocketlaunch.live which can be obtained with a low cost subscription which will support the site.
+It requires an API from www.rocketlaunch.live, obtained with a low cost subscription which will help support the site.
 
 I have taken stuff from various publicly available modules and will try to remember which and thank them here.
 
-MMM-SpaceX
-
+MMM-SpaceX,
 MMM-JSONTable
 
 ## Installation
@@ -26,7 +25,7 @@ var config = {
             module: "MMM-RocketLaunch",
             position: "middle_center",
             config: {
-                api: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,
+                api: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx, //go to rocketlaunch.live
 		updateInterval: 360000000
 	    }
 	},
