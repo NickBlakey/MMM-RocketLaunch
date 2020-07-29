@@ -105,7 +105,10 @@ Module.register("MMM-RocketLaunch", {
 				else if (hourDiff > 1 && hourDiff < 3) {
 					line.launchTime03 = this.getFormattedValue(element["win_open"]);
 				}
-				else if (hourDiff > 3 && hourDiff < 24) {
+				else if (hourDiff > 3 && hourDiff < 6) {
+					line.launchTime06 = this.getFormattedValue(element["win_open"]);
+				}
+				else if (hourDiff > 6 && hourDiff < 24) {
 					line.launchTime24 = this.getFormattedValue(element["win_open"]);
 				}
 				else if (hourDiff > 24 && hourDiff < 72) {
