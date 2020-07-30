@@ -34,7 +34,7 @@
 	color: white;
 }
 
-.launchTimeOngoing {
+.launchOngoing {
   animation: blinker 2s linear infinite;
 }
 
