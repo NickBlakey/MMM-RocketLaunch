@@ -11,7 +11,7 @@ Module.register("MMM-RocketLaunch", {
 		keepColumns: [],
 		size: 0,
 		tryFormatDate: false,
-		updateInterval: 15 * 60 * 1000
+		updateInterval: 1000
 	},
 	
 	// Define required stylescripts.
@@ -22,15 +22,12 @@ Module.register("MMM-RocketLaunch", {
 
 	start: function () {
 		this.getJson();
-		this.scheduleUpdate();
-	},
-
-	scheduleUpdate: function () {
 		var self = this;
-		setInterval(function () {
+		setInterval(function() {
+			console.log("Refreshing");
 			self.getJson();
 			self.updateDom();
-		}, this.config.updateInterval);
+		}, this.config.updateInterval)
 	},
 
 	// Request node_helper to get json from url
@@ -89,9 +86,11 @@ Module.register("MMM-RocketLaunch", {
 		items.forEach((element) => {
 			//			console.log(element["win_open"]);
 			if (element["win_open"]) {
-				console.log(element.missions[0]["name"]);
+//				console.log(element.missions[0]["name"]);
 				var hourDiff = (new Date(element["win_open"]) - today) / 3.6e6;//Hours to launch - use to format table...
-				console.log(hourDiff);
+//				console.log(hourDiff);
+				var t0Exist = element["t0"];
+//				console.log(t0Exist);
 				var line = {
 					vehicleCompany:	element.provider["name"],
 					vehicleModel:	element.vehicle["name"],
@@ -102,7 +101,11 @@ Module.register("MMM-RocketLaunch", {
 //					launchTime:	this.getFormattedValue(element["win_open"])
 					};
 				if (hourDiff < 0.5) {
-					line.launchOngoing = this.getFormattedValue(element["win_open"]);
+					if (t0Exist == null) {
+						line.launchOngoing = this.getFormattedValue(element["win_open"]);
+					} else {
+						line.launchOngoing = this.getFormattedValue(element["t0"]);
+					}
 				}
 				else if (hourDiff > 0.5 && hourDiff < 1.5) {
 					line.launchTime01 = this.getFormattedValue(element["win_open"]);
@@ -173,12 +176,15 @@ Module.register("MMM-RocketLaunch", {
 	// Format a date string or return the input
 	getFormattedValue: function (input) {
 		var m = moment(input);
+//		console.log (m.format("L"));
 		if (typeof input === "string" && m.isValid()) {
 			// Show a formatted time if it occures today
-			if (m.isSame(new Date(), "day") && m.hours() !== 0 && m.minutes() !== 0 && m.seconds() !== 0) {
-				return m.format("HH:mm:ss");
+			if (m.isSame(new Date(), "day")) {
+//				console.log("one");
+				return m.format("HH:mm");
 			} else {
-				return m.format("LLLL");
+//				console.log("two");
+				return m.format("llll");
 			}
 		} else {
 			return input;

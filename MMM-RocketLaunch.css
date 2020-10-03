@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Teko:300');
+
+.MMM-RocketLaunch {
+  font-family: 'Teko';
+  font-weight: 300;
+  font-size: 10px;
+}
+
 .MMM-RocketLaunch td {
 	text-align: left;
-	font-size: 0.7em;
+	font-size: 0.65em;
 	line-height: 1em;
  }
 

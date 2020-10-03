@@ -11,6 +11,7 @@ module.exports = NodeHelper.create({
 
 		request({ url: url, method: 'GET' }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
+				console.log("+++++++++++request++++++");
 				var json = JSON.parse(body);
 				// Send the json data back with the url to distinguish it on the receiving part
 				self.sendSocketNotification("MMM-RL_JSON_RESULT", {url: url, data: json});
