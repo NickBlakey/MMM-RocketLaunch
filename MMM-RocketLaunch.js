@@ -24,7 +24,7 @@ Module.register("MMM-RocketLaunch", {
 		this.getJson();
 		var self = this;
 		setInterval(function() {
-			console.log("Refreshing");
+//			console.log("Refreshing");
 			self.getJson();
 			self.updateDom();
 		}, this.config.updateInterval)
