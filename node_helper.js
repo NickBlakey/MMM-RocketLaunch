@@ -3,7 +3,7 @@ var request = require('request');
 
 module.exports = NodeHelper.create({
 	start: function () {
-		console.log('MMM-RL helper started... +++++++++++++++++++++++++++++++++++++++++');
+		console.log('MMM-RocketLaunch helper started... +++++++++++++++++++++++++++++++++++++++++');
 	},
 
 	getJson: function (url) {
@@ -14,7 +14,7 @@ module.exports = NodeHelper.create({
 				console.log("+++++++++++request++++++");
 				var json = JSON.parse(body);
 				// Send the json data back with the url to distinguish it on the receiving part
-				self.sendSocketNotification("MMM-RL_JSON_RESULT", {url: url, data: json});
+				self.sendSocketNotification("MMM-RocketLaunch_JSON_RESULT", {url: url, data: json});
 			}
 		});
 
@@ -22,7 +22,7 @@ module.exports = NodeHelper.create({
 
 	//Subclass socketNotificationReceived received.
 	socketNotificationReceived: function (notification, url) {
-		if (notification === "MMM-RL_GET_JSON") {
+		if (notification === "MMM-RocketLaunch_GET_JSON") {
             console.log("RL Helper received notification +++++++++++++++++++++++++++++++++++++++++++++");
 			this.getJson(url);
 		}

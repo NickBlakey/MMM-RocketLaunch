@@ -33,11 +33,11 @@ Module.register("MMM-RocketLaunch", {
 	// Request node_helper to get json from url
 	getJson: function () {
 		this.config.url = this.config.url + this.config.api;
-		this.sendSocketNotification("MMM-RL_GET_JSON", this.config.url);
+		this.sendSocketNotification("MMM-RocketLaunch_GET_JSON", this.config.url);
 	},
 
 	socketNotificationReceived: function (notification, payload) {
-		if (notification === "MMM-RL_JSON_RESULT") {
+		if (notification === "MMM-RocketLaunch_JSON_RESULT") {
 			// Only continue if the notification came from the request we made
 			// This way we can load the module more than once
 			console.log(payload.data.result);
@@ -77,12 +77,7 @@ Module.register("MMM-RocketLaunch", {
 			wrapper.innerHTML = "Json data is not of type array! " + "Maybe the config arrayName is not used and should be, or is configured wrong";
 			return wrapper;
 		}
-		/*
-		items.forEach((element) => {
-			var row = this.getTableRow(element.pad["location"]);
-			tbody.appendChild(row);
-		});
-*/
+
 		items.forEach((element) => {
 			//			console.log(element["win_open"]);
 			if (element["win_open"]) {
@@ -127,7 +122,6 @@ Module.register("MMM-RocketLaunch", {
 				}
 				var row = this.getTableRow(line);//this.getFormattedValue(element["win_open"]));
 				tbody.appendChild(row)
-//				wrapper.innerHTML += this.getFormattedValue(element["win_open"]) + "</p>";
 			}
 			return wrapper;
 		});
@@ -191,46 +185,3 @@ Module.register("MMM-RocketLaunch", {
 		}
 	}
 });
-
-/*Module.register("MMM-RocketLaunch", {
-
-    // Defaults module config.
-    defaults: {
-        rocketBase: "family",
-        modus: ""
-    },
-
-    // Define Start sequence.
-    start: function () {
-        this.count = 0;
-        var timer = setInterval(()=>{
-            this.updateDom();
-            this.count++;
-        }, 1000);
-    },
-
-    // Override DOM generator.
-    getDom: function () {
-        var table = document.createElement("table");
-        table.className = "small";
-        var element = document.createElement("div");
-        element.className = "myContent";
-        element.innerHTML = "Hello, you beautiful " + this.config.modus;
-        var subElement = document.createElement("p");
-        subElement.innerHTML = "Count: " + this.count;
-        subElement.id = "COUNT";
-        element.appendChild(subElement);
-        return element;
-    },
-
-    // Notification handler.
-    notificationReceived: function () {
-
-    },
-
-    // Socket notification handler.
-    socketNotificationReceived: function () {
-
-    },
-
-});*/
