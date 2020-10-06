@@ -33,6 +33,7 @@ Module.register("MMM-RocketLaunch", {
 	// Request node_helper to get json from url
 	getJson: function () {
 		this.config.url = this.config.url + this.config.api;
+//		console.log(this.config.url);
 		this.sendSocketNotification("MMM-RocketLaunch_GET_JSON", this.config.url);
 	},
 
@@ -175,7 +176,7 @@ Module.register("MMM-RocketLaunch", {
 			// Show a formatted time if it occures today
 			if (m.isSame(new Date(), "day")) {
 //				console.log("one");
-				return m.format("HH:mm");
+				return m.format("LTS");
 			} else {
 //				console.log("two");
 				return m.format("llll");
