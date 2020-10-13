@@ -12,6 +12,7 @@ module.exports = NodeHelper.create({
 		request({ url: url, method: 'GET' }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				console.log("+++++++++++request++++++");
+				console.log(url);
 				var json = JSON.parse(body);
 				// Send the json data back with the url to distinguish it on the receiving part
 				self.sendSocketNotification("MMM-RocketLaunch_JSON_RESULT", {url: url, data: json});
@@ -23,7 +24,7 @@ module.exports = NodeHelper.create({
 	//Subclass socketNotificationReceived received.
 	socketNotificationReceived: function (notification, url) {
 		if (notification === "MMM-RocketLaunch_GET_JSON") {
-            console.log("RL Helper received notification +++++++++++++++++++++++++++++++++++++++++++++");
+//            console.log(url);
 			this.getJson(url);
 		}
 	}
