@@ -22,7 +22,7 @@ Module.register("MMM-RocketLaunch", {
         var self = this;
         setInterval(function() {
             self.getJson();
-            self.updateDom(500);
+            self.updateDom(50);
         }, this.config.updateInterval);
     },
 
