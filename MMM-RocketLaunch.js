@@ -223,11 +223,24 @@ Module.register("MMM-RocketLaunch", {
 
         cell.className = "summaryRow";
         cell.colSpan = 4;
-        cell.appendChild(
-            document.createTextNode(
-                "Showing " + shownCount + " of " + totalCount + " scheduled launches"
-            )
-        );
+
+        var textStart = document.createTextNode("Showing ");
+        var shownSpan = document.createElement("span");
+        shownSpan.className = "summaryNumber";
+        shownSpan.textContent = shownCount;
+
+        var textMid = document.createTextNode(" of ");
+        var totalSpan = document.createElement("span");
+        totalSpan.className = "summaryNumber";
+        totalSpan.textContent = totalCount;
+
+        var textEnd = document.createTextNode(" scheduled launches");
+
+        cell.appendChild(textStart);
+        cell.appendChild(shownSpan);
+        cell.appendChild(textMid);
+        cell.appendChild(totalSpan);
+        cell.appendChild(textEnd);
 
         row.appendChild(cell);
         return row;
