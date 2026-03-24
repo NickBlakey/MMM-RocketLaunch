@@ -50,15 +50,28 @@
 
 /* Footer / summary row */
 .MMM-RocketLaunch .summaryRow {
-  font-size: 0.6em;
+  font-size: 0.56em;            /* slightly smaller than before */
   line-height: 1em;
-  padding-top: 3px;
-  color: #888;
+  padding-top: 4px;
+  color: #8f8f8f;               /* dimmer text to increase contrast */
   font-style: italic;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: 0.03em;
+}
+
+/* Summary numbers: larger, spaced, and high-contrast */
+.MMM-RocketLaunch .summaryNumber {
+  display: inline-block;
+  min-width: 1.6em;
+  margin: 0 0.35em;             /* more spacing around numbers */
+  color: orange;                /* matches launchTime06 */
+  font-size: 1.05em;            /* larger than summary text */
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
 }
 
 /* Time-based colouring */
