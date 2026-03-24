@@ -3,165 +3,253 @@
 Module.register("MMM-RocketLaunch", {
     jsonData: null,
 
-    //Default config
     defaults: {
         url: "https://fdo.rocketlaunch.live/json/launches?key=",
         apiKey: "",
         keepColumns: [],
         size: 0,
-        updateInterval: 600000
+        updateInterval: 600000,
+        maxItems: 8
     },
 
-    // Define style sheet
     getStyles: function () {
         return ["MMM-RocketLaunch.css"];
     },
 
     start: function () {
         this.getJson();
+
         var self = this;
-        setInterval(function() {
+        setInterval(function () {
             self.getJson();
             self.updateDom(50);
         }, this.config.updateInterval);
     },
 
     getJson: function () {
- //       this.config.url = this.config.url + this.config.apiKey;
-//        console.log(this.config.url);
-        this.sendSocketNotification("MMM-RocketLaunch_GET_JSON", this.config.url+this.config.apiKey)
+        this.sendSocketNotification(
+            "MMM-RocketLaunch_GET_JSON",
+            this.config.url + this.config.apiKey
+        );
     },
 
     socketNotificationReceived: function (notification, payload) {
         if (notification === "MMM-RocketLaunch_JSON_RESULT") {
-            console.log(payload.url === this.config.url+this.config.apiKey);
-
-            if (payload.url === this.config.url+this.config.apiKey) {
+            if (payload.url === this.config.url + this.config.apiKey) {
                 this.jsonData = payload.data;
-                for (var cKey in this.jsonData) if (this.jsonData.hasOwnProperty(cKey));
-                console.log("Update - line 42");
                 this.updateDom(500);
             }
         }
     },
 
-    // Override dom
     getDom: function () {
-        var today = new Date();
+        var now = new Date();
         var wrapper = document.createElement("div");
         wrapper.className = "medium";
-        wrapper.innerHTML = "";
 
         if (!this.jsonData) {
-            wrapper.innerHTML = "Awaiting JSON data..."
+            wrapper.innerHTML = "Awaiting JSON data...";
+            return wrapper;
+        }
+
+        var items = this.jsonData.result;
+
+        if (!(items instanceof Array)) {
+            wrapper.innerHTML = "Retrieved data is not an array";
+            return wrapper;
+        }
+
+        var validItems = items.filter(function (element) {
+            return element && (element.win_open || element.t0);
+        });
+
+        validItems.sort(function (a, b) {
+            var timeA = new Date(a.win_open || a.t0).getTime();
+            var timeB = new Date(b.win_open || b.t0).getTime();
+            return timeA - timeB;
+        });
+
+        var maxItems = this.config.maxItems || 8;
+        var displayItems = validItems.slice(0, maxItems);
+        var hiddenCount = validItems.length - displayItems.length;
+
+        if (displayItems.length === 0) {
+            wrapper.innerHTML = "No upcoming launches found.";
             return wrapper;
         }
 
         var table = document.createElement("table");
+        table.className = "rocketLaunchTable";
+
         var tbody = document.createElement("tbody");
 
-        var items = [];
-        items = this.jsonData["result"];
-
-        console.log(items);
-
-        // Check that result is an array
-        if (!(items instanceof Array)) {
-            wrapper.innerHTML = "Retrieved data is not an array"
-            return wrapper;
-        }
-
-        items.forEach((element) => {
-            if (element["win_open"]) {
-                var hourDiff = (new Date(element["win_open"]) - today) / 3.6e6;
-                var t0Exist = element["t0"];
-                var line = {
-                    vehicleCompany: element.provider["name"],
-                    vehicleModel: element.vehicle["name"],
-                    locationName: element.pad.location["name"],
-                    locationCountry: element.pad.location["country"],
-                    locationState: element.pad.location["statename"],
-                    missionName: element.missions[0]["name"]/*,
-                    launchtime: moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")"/*,
-                    hoursToLaunch: moment(element["win_open"]).endOf('hour').fromNow()*/
-                }
-                if (hourDiff < 0.5) {
-					if (t0Exist == null) {
-						line.launchOngoing = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-					} else {
-						line.launchOngoing = this.getFormattedValue(element["t0"]);
-					}
-				}
-				else if (hourDiff > 0.5 && hourDiff < 1.5) {
-					line.launchTime01 = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-				}
-				else if (hourDiff > 1.5 && hourDiff < 3) {
-					line.launchTime03 = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-				}
-				else if (hourDiff > 3 && hourDiff < 6) {
-					line.launchTime06 = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-				}
-				else if (hourDiff > 6 && hourDiff < 24) {
-					line.launchTime24 = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-				}
-				else if (hourDiff > 24 && hourDiff < 72) {
-					line.launchTime72 = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-				}
-				else {
-					line.launchTime = moment(element["win_open"]).format("llll") + " (" + moment(element["win_open"]).endOf('hour').fromNow() + ")";
-				}                
-                var row = this.getTableRow(line);
-                tbody.appendChild(row);
-//                console.log(row);
-            }
-            return wrapper
+        displayItems.forEach((element) => {
+            var rowData = this.buildLaunchRowData(element, now);
+            tbody.appendChild(this.getLaunchTableRow(rowData));
         });
+
+        if (hiddenCount > 0) {
+            tbody.appendChild(this.getSummaryRow(displayItems.length, validItems.length));
+        }
 
         table.appendChild(tbody);
         wrapper.appendChild(table);
+
         return wrapper;
     },
 
-    getTableRow: function (jsonObject) {
-        var row = document.createElement("tr");
-        for (var key in jsonObject) {
-            var cell = document.createElement("td");
-            cell.className = key;
+    buildLaunchRowData: function (element, now) {
+        var providerName =
+            element.provider && element.provider.name ? element.provider.name : "";
 
-            var displayedValue = "";
+        var vehicleName =
+            element.vehicle && element.vehicle.name ? element.vehicle.name : "";
 
-            displayedValue = jsonObject[key];
+        var missionName =
+            element.missions && element.missions[0] && element.missions[0].name
+                ? element.missions[0].name
+                : (element.name || "");
 
-            if (displayedValue == null) {
-                displayedValue ="";
-            }
+        var locationName =
+            element.pad && element.pad.location && element.pad.location.name
+                ? element.pad.location.name
+                : "";
 
-            var cellText = document.createTextNode(displayedValue);
+        var locationCountry =
+            element.pad && element.pad.location && element.pad.location.country
+                ? element.pad.location.country
+                : "";
 
-            cell.appendChild(cellText);
+        var timingInfo = this.getLaunchTimingInfo(element, now);
 
-            row.appendChild(cell);
+        var vehicleText = "";
+        if (providerName && vehicleName) {
+            vehicleText = providerName + " " + vehicleName;
+        } else if (vehicleName) {
+            vehicleText = vehicleName;
+        } else {
+            vehicleText = providerName;
         }
+
+        var locationText = "";
+        if (locationName && locationCountry) {
+            locationText = locationName + ", " + locationCountry;
+        } else if (locationName) {
+            locationText = locationName;
+        } else {
+            locationText = locationCountry;
+        }
+
+        return {
+            vehicle: vehicleText,
+            mission: missionName,
+            location: locationText,
+            time: timingInfo.text,
+            timeClass: timingInfo.className
+        };
+    },
+
+    getLaunchTimingInfo: function (element, now) {
+        var launchTime = element.win_open || element.t0;
+
+        if (!launchTime) {
+            return {
+                className: "launchTime",
+                text: element.date_str || "Date TBD"
+            };
+        }
+
+        var launchDate = new Date(launchTime);
+        var hourDiff = (launchDate - now) / 3.6e6;
+
+        var formattedLaunchTime =
+            moment(launchTime).format("ddd HH:mm") +
+            " (" +
+            moment(launchTime).endOf("hour").fromNow() +
+            ")";
+
+        if (hourDiff < 0.5) {
+            return {
+                className: "launchOngoing",
+                text: this.getFormattedValue(launchTime)
+            };
+        } else if (hourDiff >= 0.5 && hourDiff < 1.5) {
+            return {
+                className: "launchTime01",
+                text: formattedLaunchTime
+            };
+        } else if (hourDiff >= 1.5 && hourDiff < 3) {
+            return {
+                className: "launchTime03",
+                text: formattedLaunchTime
+            };
+        } else if (hourDiff >= 3 && hourDiff < 6) {
+            return {
+                className: "launchTime06",
+                text: formattedLaunchTime
+            };
+        } else if (hourDiff >= 6 && hourDiff < 24) {
+            return {
+                className: "launchTime24",
+                text: formattedLaunchTime
+            };
+        } else if (hourDiff >= 24 && hourDiff < 72) {
+            return {
+                className: "launchTime72",
+                text: formattedLaunchTime
+            };
+        }
+
+        return {
+            className: "launchTime",
+            text: formattedLaunchTime
+        };
+    },
+
+    getLaunchTableRow: function (rowData) {
+        var row = document.createElement("tr");
+
+        row.appendChild(this.createCell("vehicleCol", rowData.vehicle));
+        row.appendChild(this.createCell("missionCol", rowData.mission));
+        row.appendChild(this.createCell("locationCol", rowData.location));
+        row.appendChild(this.createCell("timeCol " + rowData.timeClass, rowData.time));
 
         return row;
     },
 
-	// Format a date string or return the input
-	getFormattedValue: function (input) {
-		var m = moment(input);
-//		console.log (m.format("L"));
-		if (typeof input === "string" && m.isValid()) {
-			// Show a formatted time if it occures today
-			if (m.isSame(new Date(), "day")) {
-//				console.log("one");
-				return m.format("LTS");
-			} else {
-//				console.log("two");
-				return m.format("llll");
-			}
-		} else {
-			return input;
-		}
-	}
+    getSummaryRow: function (shownCount, totalCount) {
+        var row = document.createElement("tr");
+        var cell = document.createElement("td");
 
+        cell.className = "summaryRow";
+        cell.colSpan = 4;
+        cell.appendChild(
+            document.createTextNode(
+                "Showing " + shownCount + " of " + totalCount + " scheduled launches"
+            )
+        );
+
+        row.appendChild(cell);
+        return row;
+    },
+
+    createCell: function (className, text) {
+        var cell = document.createElement("td");
+        cell.className = className;
+        cell.appendChild(document.createTextNode(text || ""));
+        return cell;
+    },
+
+    getFormattedValue: function (input) {
+        var m = moment(input);
+
+        if (typeof input === "string" && m.isValid()) {
+            if (m.isSame(new Date(), "day")) {
+                return m.format("LTS");
+            }
+            return m.format("ddd HH:mm");
+        }
+
+        return input;
+    }
 });
