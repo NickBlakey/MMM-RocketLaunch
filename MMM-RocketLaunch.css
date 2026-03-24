@@ -1,51 +1,98 @@
 @import url('https://fonts.googleapis.com/css?family=Teko:300');
 
 .MMM-RocketLaunch {
-  font-family: 'Teko';
+  font-family: 'Teko', sans-serif;
   font-weight: 300;
   font-size: 10px;
 }
 
+.MMM-RocketLaunch .rocketLaunchTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
 .MMM-RocketLaunch td {
-	text-align: left;
-	font-size: 0.65em;
-	line-height: 1em;
- }
+  text-align: left;
+  font-size: 0.65em;
+  line-height: 1em;
+  padding: 1px 4px 1px 0;
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .MMM-RocketLaunch th {
-	 text-align: left;
-	 font-size: 0.8em;
-	 line-height: 1em;
- }
-
-.launchTime01 {
-	color: limegreen;
+  text-align: left;
+  font-size: 0.8em;
+  line-height: 1em;
 }
 
-.launchTime03 {
-	color: yellowgreen;
+/* Compact column widths */
+.MMM-RocketLaunch .vehicleCol {
+  width: 25%;
 }
 
-.launchTime06 {
-	color: orange;
+.MMM-RocketLaunch .missionCol {
+  width: 29%;
 }
 
-.launchTime24 {
-	color: darkorange;
+.MMM-RocketLaunch .locationCol {
+  width: 24%;
 }
 
-.launchTime72 {
-	color: firebrick;
+.MMM-RocketLaunch .timeCol {
+  width: 22%;
+  text-align: right;
+  padding-right: 0;
 }
 
-.launchTime {
-	color: white;
+/* Footer / summary row */
+.MMM-RocketLaunch .summaryRow {
+  font-size: 0.6em;
+  line-height: 1em;
+  padding-top: 3px;
+  color: #888;
+  font-style: italic;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.launchOngoing {
+/* Time-based colouring */
+.MMM-RocketLaunch .launchTime01 {
+  color: limegreen;
+}
+
+.MMM-RocketLaunch .launchTime03 {
+  color: yellowgreen;
+}
+
+.MMM-RocketLaunch .launchTime06 {
+  color: orange;
+}
+
+.MMM-RocketLaunch .launchTime24 {
+  color: darkorange;
+}
+
+.MMM-RocketLaunch .launchTime72 {
+  color: firebrick;
+}
+
+.MMM-RocketLaunch .launchTime {
+  color: white;
+}
+
+.MMM-RocketLaunch .launchOngoing {
+  color: limegreen;
   animation: blinker 2s linear infinite;
 }
 
-@keyframes blinker {  
-  50% { opacity: 0; }
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
